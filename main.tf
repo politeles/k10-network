@@ -139,12 +139,12 @@ resource "aws_nat_gateway" "nat-gw-1" {
 }
 
 resource "aws_nat_gateway" "nat-gw-2" {
-  allocation_id = aws_eip.nat-1.id
+  allocation_id = aws_eip.nat-2.id
   subnet_id     = aws_subnet.public-subnet-2.id
   depends_on    = [aws_internet_gateway.igw]
 
   tags = {
-    "Name" = "${local.vpc_name}-NAT-gw-b"
+    "Name" = "${local.vpc_name}-NAT-gw-2"
   }
 }
 

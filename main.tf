@@ -11,11 +11,11 @@ locals {
 
 #define the vpc
 resource "aws_vpc" "main" {
-  cidr_block = var.vpc_cidr
-  enable_dns_support = true
+  cidr_block           = var.vpc_cidr
+  enable_dns_support   = true
   enable_dns_hostnames = true
   tags = {
-    Name = var.vpc_name,
+    Name                                          = var.vpc_name,
     "kubernetes.io/cluster/${local.cluster_name}" = "shared",
   }
 }
@@ -27,48 +27,48 @@ data "aws_availability_zones" "available" {
 
 # We will define 4 subnets, 2 public and 2 private
 resource "aws_subnet" "private-subnet-1" {
-  vpc_id = aws_vpc.main.id
-  cidr_block = var.private_subnet_cidr_block-1
-  availability_zone = data.aws_availability_zones.available.names[0]
+  vpc_id                  = aws_vpc.main.id
+  cidr_block              = var.private_subnet_cidr_block-1
+  availability_zone       = data.aws_availability_zones.available.names[0]
   map_public_ip_on_launch = false
   tags = {
-    Name = "${var.vpc_name}-private-subnet-1"
+    Name                                          = "${var.vpc_name}-private-subnet-1"
     "kubernetes.io/cluster/${local.cluster_name}" = "shared"
     "kubernetes.io/role/internal-elb"             = "1"
   }
 }
 
 resource "aws_subnet" "private-subnet-2" {
-  vpc_id = aws_vpc.main.id
-  cidr_block = var.private_subnet_cidr_block-2
-  availability_zone = data.aws_availability_zones.available.names[1]
+  vpc_id                  = aws_vpc.main.id
+  cidr_block              = var.private_subnet_cidr_block-2
+  availability_zone       = data.aws_availability_zones.available.names[1]
   map_public_ip_on_launch = false
   tags = {
-    Name = "${var.vpc_name}-private-subnet-2"
+    Name                                          = "${var.vpc_name}-private-subnet-2"
     "kubernetes.io/cluster/${local.cluster_name}" = "shared"
     "kubernetes.io/role/internal-elb"             = "1"
   }
 }
 
 resource "aws_subnet" "public-subnet-1" {
-  vpc_id = aws_vpc.main.id
-  cidr_block = var.public_subnet_cidr_block-1
-  availability_zone = data.aws_availability_zones.available.names[0]
+  vpc_id                  = aws_vpc.main.id
+  cidr_block              = var.public_subnet_cidr_block-1
+  availability_zone       = data.aws_availability_zones.available.names[0]
   map_public_ip_on_launch = false
   tags = {
-    Name = "${var.vpc_name}-public-subnet-1"
+    Name                                          = "${var.vpc_name}-public-subnet-1"
     "kubernetes.io/cluster/${local.cluster_name}" = "shared"
     "kubernetes.io/role/elb"                      = "1"
   }
 }
 
 resource "aws_subnet" "public-subnet-2" {
-  vpc_id = aws_vpc.main.id
-  cidr_block = var.public_subnet_cidr_block-2
-  availability_zone = data.aws_availability_zones.available.names[1]
+  vpc_id                  = aws_vpc.main.id
+  cidr_block              = var.public_subnet_cidr_block-2
+  availability_zone       = data.aws_availability_zones.available.names[1]
   map_public_ip_on_launch = false
   tags = {
-    Name = "${var.vpc_name}-public-subnet-2"
+    Name                                          = "${var.vpc_name}-public-subnet-2"
     "kubernetes.io/cluster/${local.cluster_name}" = "shared"
     "kubernetes.io/role/elb"                      = "1"
   }
@@ -110,21 +110,19 @@ resource "aws_route_table_association" "public-2-association" {
 resource "aws_route_table" "private" {
   vpc_id = aws_vpc.main.id
   tags = {
-    Name = "${var.vpc_name}-private Subnet route table" 
+    Name = "${var.vpc_name}-private Subnet route table"
   }
 }
 
 
 # elastic ip creation
 resource "aws_eip" "nat-1" {
-  vpc = true
   tags = {
     "Name" = "${local.vpc_name}-NAT-1"
   }
 }
 
 resource "aws_eip" "nat-2" {
-  vpc = true
   tags = {
     "Name" = "${local.vpc_name}-NAT-2"
   }

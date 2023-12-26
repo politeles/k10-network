@@ -1,16 +1,16 @@
 variable "aws_region" {
   description = "AWS region"
-  type = string
+  type        = string
 }
 
 variable "env_name" {
   description = "Environment name"
-  type = string
+  type        = string
 }
 
 variable "cluster_name" {
   description = "Cluster name"
-  type = string
+  type        = string
 }
 
 variable "vpc_name" {

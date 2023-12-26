@@ -49,15 +49,3 @@ module "vpc" {
   }
 }
 
-# Create a Route 53 zone for DNS support inside the VPC
-resource "aws_route53_zone" "private-zone" {
-  # AWS requires a lowercase name. 
-  #name = "lower(${var.env_name}.${var.vpc_name}.com)"
-  name = "${var.env_name}.${var.vpc_name}.com"
-  #name = "testing.com"
-  force_destroy = true
-
-  vpc {
-    vpc_id = aws_vpc.main.id
-  }
-}
